@@ -2,6 +2,7 @@ package metricsDemo;
 
 import io.prometheus.client.Counter;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Random;
@@ -23,5 +24,9 @@ public class SampleController {
         } else {
             requestTotal.labels("error").inc();
         }
+    }
+    @RequestMapping("/update")
+    public void sendAlarm(@RequestParam("alarmId") String alarmId) {
+        Alerts.alarmRequest.labels(alarmId).set(100);
     }
 }
